@@ -1,34 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <!-- Compiled and minified CSS -->
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <link rel="stylesheet" href="./css/styles.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+    <link rel="stylesheet" href="./css/styles.css" />
     <title>Pesquisa de usuários</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1 class="title">Pesquisa de Usuários</h1>
+
     <div class="container">
-        <div class="flex-row">
-            <div class="input-field input">
-                <input id="inputSearch" type="text" class="validate">
-                <label for="inputSearch">Buscar</label>
-            </div>
-            <button id="buttonSearch" class="waves-effect waves-light btn">Buscar</button>
+      <div id="divLoader" class="loader">
+        <div class="progress">
+          <div class="indeterminate"></div>
+        </div>
+        <span>Aguarde...</span>
+      </div>
+      <div id="divInteractive" class="hidden">
+        <div class="flex-row flex-align-center">
+          <div class="input-field input">
+            <input id="inputSearch" type="text" class="validate" />
+            <label for="inputSearch">Buscar</label>
+          </div>
+          <button id="buttonSearch" class="waves-effect waves-light btn">
+            Buscar
+          </button>
         </div>
 
         <div class="flex-row flex-align-top">
-            <span id="panelUsers" class="panel"><h2>Nenhum usuário filtrado</h2>            </span>
-            <span id="panelStatistics" class="panel"><h2>Estatísticas</h2></span>
+          <span id="panelUsers" class="panelUsers"
+            ><h2>Nenhum usuário filtrado</h2>
+          </span>
+          <span id="panelStatistics" class="panel"><h2>Estatísticas</h2></span>
         </div>
-
+      </div>
     </div>
-
-</body>
-<!-- Compiled and minified JavaScript -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-<script src="./js/script.js"></script>
+  </body>
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="./js/script.js"></script>
 </html>

@@ -2,6 +2,8 @@ let inputSearch = null,
     buttonSearch = null, 
     panelUsers = null; 
     panelStatistics = null;
+    divLoader = null,
+    divInteractive = null,
     users =[];
 
 window.addEventListener('load', async () => {
@@ -16,6 +18,9 @@ function mapElements(){
     buttonSearch = document.querySelector('#buttonSearch');
     panelUsers = document.querySelector('#panelUsers');
     panelStatistics = document.querySelector('#panelStatistics');
+
+    divInteractive = document.querySelector('#divInteractive');
+    divLoader = document.querySelector('#divLoader');
     
 }
 
@@ -36,8 +41,18 @@ async function fetchUsers(){
     })
     .sort((a,b) => {
         return a.name.localeCompare(b.name);
-    });    
+    });   
+    
+    showInteractive();
 }
+
+function showInteractive(){
+    setTimeout(() =>{
+        divLoader.classList.add('hidden');
+        divInteractive.classList.remove('hidden');
+    }, 1000);
+}
+
 
 function addEvents(){
     inputSearch.addEventListener('keyup', handleKeyUp);
@@ -50,9 +65,9 @@ function handleKeyUp(event){
     if( currentKey !== 'Enter' ){
         return;
     }
-
+    
     const filterText = event.target.value;
-
+    
     if( filterText.trim() !== '' ){
         filterUsers(filterText);
     }
@@ -63,9 +78,7 @@ function buttonClick(event){
     const filterText = event.target.value;
 
     if(currentButton == 'click'){
-        
         filterUsers(filterText);
-        console.log(event);
     };
 }
 
@@ -75,8 +88,8 @@ function filterUsers(filterText){
     const filteredUsers = users.filter((user) => {
         return user.naemLowerCase.includes(filterTextLowerCase);
     });
-
     renderUsers(filteredUsers);
+    renderStatistic(filteredUsers);
 }
 
 function renderUsers(users) {
@@ -88,46 +101,42 @@ function renderUsers(users) {
     const p = document.createElement('p');
     p.classList.add('flex-align-top');
 
-    let CountMans = 0;
-    let CountWomans = 0;
-    let CountAges = 0;
-    let average = 0;
-
     users.forEach(user => {
         const li = document.createElement('li');
-        li.classList.add('flex-align-top');
+        li.classList.add('flex-row');
+        li.classList.add('flex-align-center');
         
         const img = `<img src="${user.picture}" alt="${user.name}" class='userImg'>`;
-        const userData = `<span>${user.name}, ${user.age} anos </span>`;
+        const userData = `<span><strong>${user.name}, ${user.age} anos </strong></span>`;
 
         li.innerHTML = `
             ${img} ${userData}
         `;
 
         ul.appendChild(li);
-
-        if(user.gender === 'male'){
-            CountMans++;
-        }
-        else{
-            CountWomans++;
-        }
-
-        CountAges = CountAges+user.age;
-        average = CountAges/users.length;
-    })
+    });
 
     h2.textContent = `${users.length} usuário(s) encontrado(s)`;
-
-    p.innerHTML = `
-        <h2>Estatísticas</h2>
-        <p>Sexo Masculino: ${CountMans}</p>
-        <p>Sexo Femino: ${CountWomans}</p>
-        <p>Soma das Idades: ${CountAges} anos</p>
-        <p>Média das Idades: ${Math.round(average)} anos</p>
-    `
-
     panelUsers.appendChild(h2);
     panelUsers.appendChild(ul);
-    panelStatistics.appendChild(p);
+}
+
+function renderStatistic(users){
+    let CountMans = users.filter(user => user.gender === 'male').length;
+    let CountWomans = users.filter(user => user.gender === 'female').length;
+    let CountAges = users.reduce((acc, curr) => {
+        return acc + curr.age
+    }, 0);
+    let average = CountAges/users.length || 0;
+
+    panelStatistics.innerHTML = 
+    `
+        <h2>Estatísticas</h2>
+        <ul>
+            <li>Sexo Masculino: ${CountMans}</li>
+            <li>Sexo Femino: ${CountWomans}</li>
+            <li>Soma das Idades: ${CountAges} anos</li>
+            <li>Média das Idades: ${Math.round(average)} anos</li>
+        </ul>
+    `
 }
